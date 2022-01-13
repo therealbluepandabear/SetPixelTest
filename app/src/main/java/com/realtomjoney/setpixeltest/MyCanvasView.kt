@@ -36,41 +36,66 @@ class MyCanvasView (context: Context, private var spanCount: Int) : View(context
         val coordinateX = (event.x / scaleWidth).toInt()
         val coordinateY = (event.y / scaleWidth).toInt()
 
-        if (currentBitmapAction != null) {
-            currentBitmapAction!!.actionData.add(BitmapActionData(XYPosition(coordinateX, coordinateY), extraBitmap.getPixel(coordinateX, coordinateY)))
-        } else {
-            currentBitmapAction = BitmapAction(mutableListOf())
-            currentBitmapAction!!.actionData.add(BitmapActionData(XYPosition(coordinateX, coordinateY), extraBitmap.getPixel(coordinateX, coordinateY)))
-        }
-
         when (event.actionMasked) {
             MotionEvent.ACTION_MOVE -> {
-                if (prevX != null && prevY != null) {
-                    val lineAlgorithmInstance = LineAlgorithm(extraBitmap, currentBitmapAction!!)
+                if (coordinateX in 0 until spanCount && coordinateY in 0 until spanCount) {
+                    if (currentBitmapAction != null) {
+                        currentBitmapAction!!.actionData.add(BitmapActionData(XYPosition(coordinateX, coordinateY), extraBitmap.getPixel(coordinateX, coordinateY)))
+                    } else {
+                        currentBitmapAction = BitmapAction(mutableListOf())
+                        currentBitmapAction!!.actionData.add(BitmapActionData(XYPosition(coordinateX, coordinateY), extraBitmap.getPixel(coordinateX, coordinateY)))
+                    }
 
-                    lineAlgorithmInstance.compute(XYPosition(prevX!!, prevY!!), XYPosition(coordinateX, coordinateY))
+                    if (prevX != null && prevY != null) {
+                        val lineAlgorithmInstance =
+                            LineAlgorithm(extraBitmap, currentBitmapAction!!)
+
+                        lineAlgorithmInstance.compute(
+                            XYPosition(prevX!!, prevY!!),
+                            XYPosition(coordinateX, coordinateY)
+                        )
+                    }
+
+                    extraBitmap.setPixel(coordinateX, coordinateY, Color.BLACK)
+
+                    prevX = coordinateX
+                    prevY = coordinateY
+
+                    invalidate()
+                } else {
+                    prevX = null
+                    prevY = null
                 }
-
-                extraBitmap.setPixel(coordinateX, coordinateY, Color.BLACK)
-
-                prevX = coordinateX
-                prevY = coordinateY
-
-                invalidate()
             }
             MotionEvent.ACTION_DOWN -> {
-                if (prevX != null && prevY != null) {
-                    val lineAlgorithmInstance = LineAlgorithm(extraBitmap, currentBitmapAction!!)
+                if (coordinateX in 0 until spanCount && coordinateY in 0 until spanCount) {
+                    if (currentBitmapAction != null) {
+                        currentBitmapAction!!.actionData.add(BitmapActionData(XYPosition(coordinateX, coordinateY), extraBitmap.getPixel(coordinateX, coordinateY)))
+                    } else {
+                        currentBitmapAction = BitmapAction(mutableListOf())
+                        currentBitmapAction!!.actionData.add(BitmapActionData(XYPosition(coordinateX, coordinateY), extraBitmap.getPixel(coordinateX, coordinateY)))
+                    }
 
-                    lineAlgorithmInstance.compute(XYPosition(prevX!!, prevY!!), XYPosition(coordinateX, coordinateY))
+                    if (prevX != null && prevY != null) {
+                        val lineAlgorithmInstance =
+                            LineAlgorithm(extraBitmap, currentBitmapAction!!)
+
+                        lineAlgorithmInstance.compute(
+                            XYPosition(prevX!!, prevY!!),
+                            XYPosition(coordinateX, coordinateY)
+                        )
+                    }
+
+                    extraBitmap.setPixel(coordinateX, coordinateY, Color.BLACK)
+
+                    prevX = coordinateX
+                    prevY = coordinateY
+
+                    invalidate()
+                }  else {
+                    prevX = null
+                    prevY = null
                 }
-
-                extraBitmap.setPixel(coordinateX, coordinateY, Color.BLACK)
-
-                prevX = coordinateX
-                prevY = coordinateY
-
-                invalidate()
             }
             MotionEvent.ACTION_UP -> {
                 bitmapActionData.add(currentBitmapAction!!)
@@ -80,6 +105,7 @@ class MyCanvasView (context: Context, private var spanCount: Int) : View(context
                 prevY = null
             }
         }
+
 
         return true
     }
