@@ -23,7 +23,7 @@ class LineAlgorithm(private val bitmap: Bitmap, private val currentBitmapAction:
         var p = 2 * differenceY - differenceX
 
         while (x <= to.x) {
-            currentBitmapAction.actionData.add(BitmapActionData(XYPosition(x, y), bitmap.getPixel(x, y), true))
+            currentBitmapAction.actionData.add(BitmapActionData(XYPosition(x, y), bitmap.getPixel(x, y)))
             bitmap.setPixel(x, y, color)
             x++
 
@@ -56,7 +56,7 @@ class LineAlgorithm(private val bitmap: Bitmap, private val currentBitmapAction:
         var p = 2 * differenceX - differenceY
 
         while (y <= to.y) {
-            currentBitmapAction.actionData.add(BitmapActionData(XYPosition(x, y), bitmap.getPixel(x, y), true))
+            currentBitmapAction.actionData.add(BitmapActionData(XYPosition(x, y), bitmap.getPixel(x, y)))
             bitmap.setPixel(x, y, color)
             y++
 

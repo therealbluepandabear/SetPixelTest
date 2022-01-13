@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
             canvasFragmentInstance!!.myCanvasViewInstance.undo()
         }
 
-        canvasFragmentInstance = CanvasFragment.newInstance(30)
+        canvasFragmentInstance = CanvasFragment.newInstance(2000)
         supportFragmentManager.beginTransaction().add(R.id.canvasFrame, canvasFragmentInstance!!).commit()
     }
 }

@@ -47,12 +47,11 @@ class MyCanvasView (context: Context, private var spanCount: Int) : View(context
                     }
 
                     if (prevX != null && prevY != null) {
-                        val lineAlgorithmInstance =
-                            LineAlgorithm(extraBitmap, currentBitmapAction!!)
+                        val rectAlgorithmInstance = RectangleAlgorithm(extraBitmap, currentBitmapAction!!)
 
-                        lineAlgorithmInstance.compute(
+                        rectAlgorithmInstance.compute(
                             XYPosition(prevX!!, prevY!!),
-                            XYPosition(coordinateX, coordinateY)
+                            XYPosition(coordinateX, coordinateY),
                         )
                     }
 
@@ -77,12 +76,11 @@ class MyCanvasView (context: Context, private var spanCount: Int) : View(context
                     }
 
                     if (prevX != null && prevY != null) {
-                        val lineAlgorithmInstance =
-                            LineAlgorithm(extraBitmap, currentBitmapAction!!)
+                        val rectAlgorithmInstance = RectangleAlgorithm(extraBitmap, currentBitmapAction!!)
 
-                        lineAlgorithmInstance.compute(
+                        rectAlgorithmInstance.compute(
                             XYPosition(prevX!!, prevY!!),
-                            XYPosition(coordinateX, coordinateY)
+                            XYPosition(coordinateX, coordinateY),
                         )
                     }
 
