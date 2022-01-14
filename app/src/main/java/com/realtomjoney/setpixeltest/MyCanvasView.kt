@@ -26,10 +26,6 @@ class MyCanvasView (context: Context, private var spanCount: Int) : View(context
 
         extraBitmap = Bitmap.createBitmap(spanCount, spanCount, Bitmap.Config.ARGB_8888)
         extraCanvas = Canvas(extraBitmap)
-
-        for (i in 0 until spanCount) {
-            extraBitmap.setPixel(i, i, Color.YELLOW)
-        }
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -39,68 +35,24 @@ class MyCanvasView (context: Context, private var spanCount: Int) : View(context
         when (event.actionMasked) {
             MotionEvent.ACTION_MOVE -> {
                 if (coordinateX in 0 until spanCount && coordinateY in 0 until spanCount) {
-                    if (currentBitmapAction != null) {
-                        currentBitmapAction!!.actionData.add(BitmapActionData(XYPosition(coordinateX, coordinateY), extraBitmap.getPixel(coordinateX, coordinateY)))
-                    } else {
-                        currentBitmapAction = BitmapAction(mutableListOf())
-                        currentBitmapAction!!.actionData.add(BitmapActionData(XYPosition(coordinateX, coordinateY), extraBitmap.getPixel(coordinateX, coordinateY)))
-                    }
-
-                    if (prevX != null && prevY != null) {
-                        val rectAlgorithmInstance = RectangleAlgorithm(extraBitmap, currentBitmapAction!!)
-
-                        rectAlgorithmInstance.compute(
-                            XYPosition(prevX!!, prevY!!),
-                            XYPosition(coordinateX, coordinateY),
-                        )
-                    }
-
-                    extraBitmap.setPixel(coordinateX, coordinateY, Color.BLACK)
-
-                    prevX = coordinateX
-                    prevY = coordinateY
-
+                    val floodFillAlgorithmInstance = FloodFillAlgorithm(extraBitmap, Color.BLACK)
+                    floodFillAlgorithmInstance.compute(XYPosition(coordinateX, coordinateY))
                     invalidate()
-                } else {
-                    prevX = null
-                    prevY = null
                 }
             }
             MotionEvent.ACTION_DOWN -> {
                 if (coordinateX in 0 until spanCount && coordinateY in 0 until spanCount) {
-                    if (currentBitmapAction != null) {
-                        currentBitmapAction!!.actionData.add(BitmapActionData(XYPosition(coordinateX, coordinateY), extraBitmap.getPixel(coordinateX, coordinateY)))
-                    } else {
-                        currentBitmapAction = BitmapAction(mutableListOf())
-                        currentBitmapAction!!.actionData.add(BitmapActionData(XYPosition(coordinateX, coordinateY), extraBitmap.getPixel(coordinateX, coordinateY)))
-                    }
-
-                    if (prevX != null && prevY != null) {
-                        val rectAlgorithmInstance = RectangleAlgorithm(extraBitmap, currentBitmapAction!!)
-
-                        rectAlgorithmInstance.compute(
-                            XYPosition(prevX!!, prevY!!),
-                            XYPosition(coordinateX, coordinateY),
-                        )
-                    }
-
-                    extraBitmap.setPixel(coordinateX, coordinateY, Color.BLACK)
-
-                    prevX = coordinateX
-                    prevY = coordinateY
-
+                    val floodFillAlgorithmInstance = FloodFillAlgorithm(extraBitmap, Color.BLACK)
+                    floodFillAlgorithmInstance.compute(XYPosition(coordinateX, coordinateY))
                     invalidate()
-                }  else {
-                    prevX = null
-                    prevY = null
                 }
             }
             MotionEvent.ACTION_UP -> {
-                bitmapActionData.add(currentBitmapAction!!)
-                currentBitmapAction = null
-
-                prevX = null
-                prevY = null
+//                bitmapActionData.add(currentBitmapAction!!)
+//                currentBitmapAction = null
+//
+//                prevX = null
+//                prevY = null
             }
         }
 

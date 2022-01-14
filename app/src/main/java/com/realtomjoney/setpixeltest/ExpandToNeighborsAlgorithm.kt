@@ -1,8 +1,6 @@
 package com.realtomjoney.setpixeltest
 
 import android.graphics.Bitmap
-import android.graphics.Color
-import java.util.*
 
 class ExpandToNeighborsAlgorithm(private val bitmap: Bitmap) {
     fun compute(from: XYPosition): List<XYPosition> {
